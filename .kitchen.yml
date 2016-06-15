@@ -25,19 +25,19 @@ provisioner:
    # extra_vars            : { 'kitchen_connection': '<%= if ENV["TRAVIS"] then "local" else "smart" end %>', 'kitchen_hosts': '<%= if ENV["TRAVIS"] then "localhost" else "all" end %>' }
 
 platforms:
-- name: ubuntu-12.04
+  - name: ubuntu-12.04
     driver_config:
       image_urn: Canonical:UbuntuServer:12.04.5-LTS:latest
 
-- name: ubuntu-14.04
+  - name: ubuntu-14.04
     driver_config:
       image_urn: Canonical:UbuntuServer:14.04.3-LTS:latest
       vm_name: trusty-vm
 
 suites:
-    - name                  : default
-      provisioner           :
-          playbook          : "test/integration/default/default.yml"
+  - name                  : default
+    provisioner           :
+        playbook          : "test/integration/default/default.yml"
 
   #- name                  : simple
   #  provisioner           :
