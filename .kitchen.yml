@@ -35,14 +35,14 @@ platforms:
       vm_name: trusty-vm
 
 suites:
-  - name                  : default
+  #- name                  : default
+  #  provisioner           :
+  #      playbook          : "test/integration/default/default.yml"
+
+  - name                  : simple
     provisioner           :
-        playbook          : "test/integration/default/default.yml"
+        playbook          : "test/integration/simple/simple.yml"
 
-  #- name                  : simple
-  #  provisioner           :
-  #      playbook          : "test/integration/simple/simple.yml"
-
-  #- name                  : manage
-  #  provisioner           :
-  #      playbook          : "test/integration/manage/manage.yml"
+  - name                  : manage
+    provisioner           :
+        playbook          : "test/integration/manage/manage.yml"
