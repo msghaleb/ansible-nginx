@@ -1,10 +1,20 @@
 ---
-driver                    :
-    name                  : <%= if ENV['TRAVIS'] then 'localhost' else 'vagrant' end  %>
-    box                   : "ubuntu/trusty64"
-    customize             :
-         cpus             : 2
-         memory           : 2048 
+---
+
+driver:
+  name: azurerm
+
+driver_config:
+  subscription_id: 'a06a99f4-9123-4ef6-94d8-e669b8f6f61e'
+  location: 'West Europe'
+  machine_size: 'Standard_D1'
+  #username: msghaleb
+  #password: P@ssw0rd
+
+transport:
+  ssh_key: ~/.ssh/id_kitchen-azurermtransport:
+#     name: winrm
+#     winrm_transport: negotiate
 
 provisioner:
     name                  : ansible_push
@@ -12,18 +22,17 @@ provisioner:
     ansible_config        : "test/ansible.cfg"
     idempotency_test      : True
     diff                  : True
-    sudo                  : <%= if ENV['TRAVIS'] then 'True' else 'False' end  %>
-    raw_arguments         : <%= if ENV['TRAVIS'] then '-c local' else '' end %>
-    extra_vars            : { 'kitchen_connection': '<%= if ENV["TRAVIS"] then "local" else "smart" end %>', 'kitchen_hosts': '<%= if ENV["TRAVIS"] then "localhost" else "all" end %>' }
+    sudo                  : 'True'
+   # extra_vars            : { 'kitchen_connection': '<%= if ENV["TRAVIS"] then "local" else "smart" end %>', 'kitchen_hosts': '<%= if ENV["TRAVIS"] then "localhost" else "all" end %>' }
 
 platforms:
- - name                   : "v1"
-   provisioner            :
-     ansible_playbook_bin : "$(ansible-version path v1)ansible-playbook"
-
- - name                   : "v2"
-   provisioner            :
-     ansible_playbook_bin : "$(ansible-version path v2)ansible-playbook"
+- name: ubuntu-12.04
+    driver_config:
+      image_urn: Canonical:UbuntuServer:12.04.5-LTS:latest
+- name: ubuntu-14.04
+    driver_config:
+      image_urn: Canonical:UbuntuServer:14.04.3-LTS:latest
+      vm_name: trusty-vm
 
 suites:
   - name                  : simple
