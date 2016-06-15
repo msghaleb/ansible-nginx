@@ -11,7 +11,7 @@ driver_config:
   #password: P@ssw0rd
 
 transport:
-  ssh_key: ~/.ssh/id_kitchen-azurermtransport:
+  ssh_key: ~/.ssh/id_kitchen-azurermtransport
 #     name: winrm
 #     winrm_transport: negotiate
 
@@ -28,16 +28,21 @@ platforms:
 - name: ubuntu-12.04
     driver_config:
       image_urn: Canonical:UbuntuServer:12.04.5-LTS:latest
+
 - name: ubuntu-14.04
     driver_config:
       image_urn: Canonical:UbuntuServer:14.04.3-LTS:latest
       vm_name: trusty-vm
 
 suites:
-  - name                  : simple
-    provisioner           :
-        playbook          : "test/integration/simple/simple.yml"
+    - name                  : default
+      provisioner           :
+          playbook          : "test/integration/default/default.yml"
 
-  - name                  : manage
-    provisioner           :
-        playbook          : "test/integration/manage/manage.yml"
+  #- name                  : simple
+  #  provisioner           :
+  #      playbook          : "test/integration/simple/simple.yml"
+
+  #- name                  : manage
+  #  provisioner           :
+  #      playbook          : "test/integration/manage/manage.yml"
