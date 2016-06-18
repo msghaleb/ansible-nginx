@@ -22,7 +22,7 @@ provisioner:
     idempotency_test      : True
     diff                  : True
     sudo                  : 'True'
-   # extra_vars            : { 'kitchen_connection': '<%= if ENV["TRAVIS"] then "local" else "smart" end %>', 'kitchen_hosts': '<%= if ENV["TRAVIS"] then "localhost" else "all" end %>' }
+    extra_vars            : { 'kitchen_connection': '<%= if ENV["TRAVIS"] then "local" else "smart" end %>', 'kitchen_hosts': '<%= if ENV["TRAVIS"] then "localhost" else "all" end %>' }
 
 platforms:
   - name: ubuntu-12.04
