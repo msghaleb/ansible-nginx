@@ -1,48 +1,55 @@
 ---
 
 driver:
-  name: azurerm
-
-driver_config:
-  subscription_id: 'a06a99f4-9123-4ef6-94d8-e669b8f6f61e'
-  location: 'West Europe'
-  machine_size: 'Standard_D1'
-  #username: msghaleb
-  #password: P@ssw0rd
+     name: ec2
+     aws_ssh_key_id: ghaleb2
+     security_group_ids: ["sg-9006b8f8"]
+     region: eu-central-1
+     #availability_zone: b
+     require_chef_omnibus: true
+     #subnet_id: subnet-6e5d4c3b
+     #iam_profile_name: chef-client
+     instance_type: t2.medium
+     associate_public_ip: true
+     interface: public
 
 transport:
-  ssh_key: ~/.ssh/id_kitchen-azurermtransport
-#     name: winrm
-#     winrm_transport: negotiate
+     ssh_key: ~/.ssh/ghaleb2.pem
+
 
 provisioner:
     name                  : ansible_push
-    verbose               : "vvvv"
+    #verbose               : "vvvvvvvvvvv"
     ansible_config        : "test/ansible.cfg"
-    idempotency_test      : True
-    diff                  : True
-    sudo                  : 'True'
-    extra_vars            : { 'kitchen_connection': '<%= if ENV["TRAVIS"] then "local" else "smart" end %>', 'kitchen_hosts': '<%= if ENV["TRAVIS"] then "localhost" else "all" end %>' }
+    idempotency_test      : False
+    diff                  : False
+    sudo                  : True
 
 platforms:
-  #- name: ubuntu-12.04
-  #  driver_config:
-  #    image_urn: Canonical:UbuntuServer:12.04.5-LTS:latest
 
+#azure vm image list westeurope canonical ubuntuserver
   - name: ubuntu-14.04
-    driver_config:
-      image_urn: Canonical:UbuntuServer:14.04.3-LTS:latest
-      vm_name: trusty-vm
+    transport:
+      username: ubuntu
+
+  - name: ubuntu-16.04
+    transport:
+      username: ubuntu
+#azure vm image list westeurope RedHat RHEL
+  - name: rhel-7
+    transport:
+      username: ec2-user
+#azure vm image list westeurope credativ Debian
+  - name: debian-8
+    transport:
+      username: admin
+#azure vm image list westeurope OpenLogic CentOS
+  - name: centos-7
+    transport:
+      username: centos
+
 
 suites:
-  #- name                  : default
-  #  provisioner           :
-  #      playbook          : "test/integration/default/default.yml"
-
-  - name                  : simple
+  - name                  : default
     provisioner           :
-       playbook          : "test/integration/simple/simple.yml"
-
-  #- name                  : manage
-  #  provisioner           :
-  #      playbook          : "test/integration/manage/manage.yml"
+        playbook          : "test/integration/manage/manage.yml"
